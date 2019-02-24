@@ -7,25 +7,34 @@
      <label>Password</label>
      <input required v-model="password" type="password" placeholder="Password"/>
      <hr/>
-     <button v-on:click="login({'username': username, 'pasword': password })">Login</button>
+     <button v-on:click="loginTest({'username': username, 'pasword': password })">Login</button>
    </form>
+   <p>
+     Return is {{ tokenData }}
+   </p>
  </div>
 </template>
 
 <script>
-import { logMeIn } from '../utils/api.js'
+import { logMeIn, testLogin } from '../utils/api.js'
 export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      tokenData: {}
     }
   },
   methods: {
-   login (user) {
-     console.log(user)
-     logMeIn(user).then(() => {
-       this.$router.push('/test')
+  //  login (user) {
+  //    console.log(user)
+  //    logMeIn(user).then(() => {
+  //      this.$router.push('/test')
+  //    })
+  //  },
+   loginTest (user) {
+     testLogin(user).then((ret) => {
+       this.tokenData = ret
      })
    }
   }

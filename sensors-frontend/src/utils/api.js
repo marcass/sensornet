@@ -12,7 +12,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
 axios.defaults.headers.delete['Content-Type'] = 'application/json';
 
-export { testGet, logMeIn }
+export { testGet, logMeIn, testLogin }
 
 function simple_get(url) {
   return axios.get(url)
@@ -24,6 +24,10 @@ function simple_get(url) {
 function testGet() {
   const url = BASE_URL+'/test/flask/hello'
   return simple_get(url)
+}
+
+function testLogin (user) {
+  return axios.post(BASE_URL+'/auth', user)
 }
 
 function logMeIn (user) {
