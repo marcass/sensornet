@@ -2,12 +2,12 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     We will see if a fetch can happen from various routes
-    {{ payload.msg }}
+    {{ payload.data }}
   </div>
 </template>
 
 <script>
-import { testGet } from '../utils/api.js'
+import { testGet, testLogin } from '../utils/api.js'
 export default {
   name: 'TestPage',
   props: {
@@ -23,10 +23,17 @@ export default {
       testGet().then((ret) => {
         this.payload = ret
       })
+    },
+    loginTest () {
+      testLogin({'username': 'andy', 'password': 'test'}).then((ret) => {
+        this.payload = ret
+        console.log(ret)
+       })
     }
   },
   mounted () {
-    this.getStuff()
+    // this.getStuff()
+    this.loginTest()
   }
 }
 </script>

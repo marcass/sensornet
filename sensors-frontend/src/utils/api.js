@@ -26,32 +26,56 @@ function testGet() {
   return simple_get(url)
 }
 
+// function testLogin (user) {
+//   // console.log(user)
+//   axios.post(BASE_URL+'/auth', user)
+//   .then(function (response) {
+//     // console.log(response)
+//     var tokenData = response.data
+//     var decoded = jwt_decode(tokenData.access_token)
+//     // console.log(decoded)
+//     // set items in storage
+//     var userData = {'username': user.username,
+//                     'roles': decoded.roles,
+//                     'access_token': tokenData.access_token
+//                   }
+//     console.log(userData)
+//     sessionStorage.setItem('user', userData)
+//     return 'Good to go'
+//   })
+//   .catch(function (error) {
+//     console.log(error)
+//     return error
+//   })
+// }
+
 function testLogin (user) {
+  // console.log(user)
   return axios.post(BASE_URL+'/auth', user)
 }
 
-function logMeIn (user) {
-  console.log(user)
-  // axios.post(BASE_URL+'/auth', user, {auth: {username : user.username, password : user.password}})
-  axios.post(BASE_URL+'/auth', user)
-  .then(resp => {
-    console.log(resp)
-    const token = resp.data.access_token
-    var decoded = jwt_decode(token);
-    console.log(decoded)
-    //  localStorage.setItem('roles', decoded.roles)
-    localStorage.setItem('jwt-token', token) // store the token in localstorage
-    localStorage.setItem('user', user.username)
-    resolve(resp)
-  })
-  .catch(err => {
-     console.log('oops, login error')
-     localStorage.removeItem('jwt-token') // if the request fails, remove any possible user token if possible
-     localStorage.removeItem('user')
-    //  localStorage.removeItem('roles')
-     reject(err)
-   })
- }
+// function logMeIn (user) {
+//   console.log(user)
+//   // axios.post(BASE_URL+'/auth', user, {auth: {username : user.username, password : user.password}})
+//   axios.post(BASE_URL+'/auth', user)
+//   .then(resp => {
+//     console.log(resp)
+//     const token = resp.data.access_token
+//     var decoded = jwt_decode(token);
+//     console.log(decoded)
+//     //  localStorage.setItem('roles', decoded.roles)
+//     localStorage.setItem('jwt-token', token) // store the token in localstorage
+//     localStorage.setItem('user', user.username)
+//     resolve(resp)
+//   })
+//   .catch(err => {
+//      console.log('oops, login error')
+//      localStorage.removeItem('jwt-token') // if the request fails, remove any possible user token if possible
+//      localStorage.removeItem('user')
+//     //  localStorage.removeItem('roles')
+//      reject(err)
+//    })
+//  }
 
 // can decode with https://www.npmjs.com/package/vue-jwt-decode
 // then get the expiration and test for a time near that so that a request can be made for a refresh token
