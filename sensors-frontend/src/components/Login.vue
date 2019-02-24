@@ -35,7 +35,8 @@ export default {
         // set items in storage
         var userData = {'username': user.username,
                         'roles': decoded.roles,
-                        'access_token': tokenData.access_token
+                        'access_token': tokenData.access_token,
+                        'exp': decoded.exp
                       }
         console.log(userData)
         sessionStorage.setItem('user', userData)
