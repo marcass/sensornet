@@ -2,8 +2,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Vue from 'vue'
 import jwt_decode from 'jwt-decode'
+import Router from '../router.js'
 
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios, Router)
 
 const BASE_URL = 'http://nuc/kong';
 Vue.axios.defaults.baseURL = BASE_URL;
@@ -16,20 +17,23 @@ export { testGet, logMeIn, testLogin }
 
 // get token
 function authHeader () {
-  try {
+  if (typeof sessionStorage('userData') === 'undefined') {
+    this.$router.push({name: 'Login'})
+  }
+  else {
     // test to see if token not expired
     var userData = sessionStorage('userData')
     var now = new Date().getTime()
     if (now > userData.exp) {
       // token expired need to login
       axios.defaults.headers.common['Authorization'] =  null
+      // remove session data
+      sessionStorage.removeItem('userData')
+      this.$router.push({name: 'Login'})
     }
     else {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + userData.access_token
     }
-  }
-  catch {
-    // no token so need to login
   }
 }
 
@@ -41,6 +45,7 @@ function simple_get(url) {
 }
 
 function testGet() {
+  authHeader()
   const url = BASE_URL+'/test/flask/hello'
   return simple_get(url)
 }
