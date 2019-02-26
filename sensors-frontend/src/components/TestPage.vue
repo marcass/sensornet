@@ -32,8 +32,8 @@ export default {
     }
   },
   mounted () {
-    // this.getStuff()
-    this.loginTest()
+    this.getStuff()
+    // this.loginTest()
   }
 }
 </script>

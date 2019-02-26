@@ -28,7 +28,7 @@ export default {
     loginTest (user) {
       // testLogin (user).then(function (response) {
       testLogin (user).then((response) => {
-        console.log(response)
+        // console.log(response)
         var tokenData = response.data
         var decoded = jwt_decode(tokenData.access_token)
         // console.log(decoded)
@@ -38,9 +38,10 @@ export default {
                         'access_token': tokenData.access_token,
                         'exp': decoded.exp
                       }
-        console.log(userData)
-        sessionStorage.setItem('user', userData)
+        // console.log(userData)
+        localStorage.setItem('user', userData)
         this.msg = 'Good to go'
+        console.log(localStorage.getItem('user'))
       })
       .catch((error) => {
         console.log(error)
