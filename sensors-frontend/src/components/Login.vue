@@ -33,15 +33,15 @@ export default {
         var decoded = jwt_decode(tokenData.access_token)
         // console.log(decoded)
         // set items in storage
-        var userData = {'username': user.username,
-                        'roles': decoded.roles,
-                        'access_token': tokenData.access_token,
-                        'exp': decoded.exp
-                      }
-        // console.log(userData)
-        localStorage.setItem('user', userData)
-        this.msg = 'Good to go'
-        console.log(localStorage.getItem('user'))
+        localStorage.setItem('username', user.username)
+        localStorage.setItem('roles', decoded.roles)
+        localStorage.setItem('access_token', tokenData.access_token)
+        localStorage.setItem('exp', decoded.exp)
+        // var userData = {'username': user.username,
+        //                 'roles': decoded.roles,
+        //                 'access_token': tokenData.access_token,
+        //                 'exp': decoded.exp
+        //               }
       })
       .catch((error) => {
         console.log(error)

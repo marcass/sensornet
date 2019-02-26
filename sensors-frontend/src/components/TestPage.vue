@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     We will see if a fetch can happen from various routes
-    {{ payload.data }}
+    {{ payload }}
   </div>
 </template>
 

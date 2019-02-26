@@ -6,9 +6,9 @@ import Router from '../router.js'
 
 Vue.use(VueAxios, axios, Router)
 
-const BASE_URL = 'http://localhost:8001/kong';
+const BASE_URL = 'http://nuc/kong';
 Vue.axios.defaults.baseURL = BASE_URL;
-// axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('jwt-token')
+// axios.defaults.headers.common['Authorization'] = 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqMXVnc3hQYll6Nldnb0NtWEtmMHpxb3kwU1NySTdHYSIsIm5iZiI6MTU1MTIxMTYwNywic3ViIjp7InVzZXJuYW1lIjoiYW5keSJ9LCJpYXQiOjE1NTEyMTE2MDcsImV4cCI6MTU1MTIxNTIwNywicm9sZXMiOlsicGxlYiIsImZ1Y2tlciJdfQ.8iRuEICHnueIFrTFwmS2U3y8h4QVsXfIjGg7GhwFy9Q';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
 axios.defaults.headers.delete['Content-Type'] = 'application/json';
@@ -17,29 +17,35 @@ export { testGet, logMeIn, testLogin }
 
 // get token
 function authHeader () {
-  var userData = localStorage.getItem('user')
-  if (userData === null) {
+  var token = localStorage.getItem('access_token')
+  if (typeof token === 'undefined') {
   // if (typeof sessionStorage.getItem('userData') === 'undefined') {
     console.log('no token')
-    this.$router.push({name: 'Login'})
+    // this.$router.push({name: 'Login'})
   }
   else {
     // test to see if token not expired
     console.log('we ahve a token')
-    console.log(userData)
+    console.log(token)
     var now = new Date().getTime()
-    if (now > userData.exp) {
+    if (now > Date.parse(localStorage.getItem('exp'))) {
+    // if (now > localStorage.getItem('exp')) {
+      console.log('token expired')
       // token expired need to login
       axios.defaults.headers.common['Authorization'] =  null
       // remove session data
-      localStorage.removeItem('userData')
-      this.$router.push({name: 'Login'})
+      localStorage.clear()
+      // this.$router.push({name: 'Login'})
     }
     else {
-      console.log('this is the token' + userData.access_token)
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + userData.access_token
+      console.log('this is the token' + token)
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
     }
   }
+}
+
+function tokenAtt () {
+  return localStorage.getItem('access_token')
 }
 
 function simple_get(url) {
