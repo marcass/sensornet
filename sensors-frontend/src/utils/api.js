@@ -26,9 +26,14 @@ function authHeader () {
   else {
     // test to see if token not expired
     console.log('we ahve a token')
-    console.log(token)
+    // console.log(token)
     var now = new Date().getTime()
-    if (now > Date.parse(localStorage.getItem('exp'))) {
+    var exp = Number(localStorage.getItem('exp')) * 1000
+    console.log(now)
+    console.log(typeof now)
+    console.log(exp)
+    console.log(typeof exp)
+    if (now > exp) {
     // if (now > localStorage.getItem('exp')) {
       console.log('token expired')
       // token expired need to login
@@ -38,7 +43,7 @@ function authHeader () {
       // this.$router.push({name: 'Login'})
     }
     else {
-      console.log('this is the token' + token)
+      // console.log('this is the token' + token)
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
     }
   }
