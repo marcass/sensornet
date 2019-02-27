@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { logMeIn, testLogin } from '../utils/api.js'
+import { logMeIn, testLogin, storeToken } from '../utils/api.js'
 import jwt_decode from 'jwt-decode'
 export default {
   data () {
@@ -25,59 +25,33 @@ export default {
     }
   },
   methods: {
-    loginTest (user) {
-      // testLogin (user).then(function (response) {
-      testLogin (user).then((response) => {
-        console.log(response)
-        var tokenData = response.data
-        var decoded = jwt_decode(tokenData.access_token)
-        // console.log(decoded)
-        // set items in storage
-        localStorage.setItem('username', user.username)
-        localStorage.setItem('roles', decoded.roles)
-        localStorage.setItem('access_token', tokenData.access_token)
-        localStorage.setItem('exp', decoded.exp)
-        // var userData = {'username': user.username,
-        //                 'roles': decoded.roles,
-        //                 'access_token': tokenData.access_token,
-        //                 'exp': decoded.exp
-        //               }
-      })
-      .catch((error) => {
-        console.log(error)
-        this.msg = error
-      })
+    loginTest(user){
+      var ret = storeToken(user)
+      console.log(ret)
     }
-  // loginTest (user) {
-  //   console.log(user)
-  //     testLogin(user).then((ret) => {
-  //       console.log(ret)
-  //       // console.log(ret.data)
-  //       if (ret.status == 200) {
-  //         this.msg = 'Good to go'
-  //         this.tokenData = ret.data
-  //         var decoded = jwt_decode(this.tokenData.access_token)
-  //         console.log(decoded)
-  //         // set items in storage
-  //         var userData = {'username': user.username,
-  //                         'roles': decoded.roles,
-  //                         'access_token': this.tokenData.access_token
-  //                       }
-  //         console.log(userData)
-  //         sessionStorage.setItem('user', userData)
-  //       }
-  //       else if (ret.status == 401) {
-  //         this.msg = 'Bad username'
-  //       }
-  //       else {
-  //         this.msg = 'Something went wrong'
-  //       }
-  //     },
-  //     function(error) {
-  //       console.log(error)
-  //     }
-  //   )
-  //   }
+    // loginTest (user) {
+    //   // testLogin (user).then(function (response) {
+    //   testLogin (user).then((response) => {
+    //     console.log(response)
+    //     var tokenData = response.data
+    //     var decoded = jwt_decode(tokenData.access_token)
+    //     // console.log(decoded)
+    //     // set items in storage
+    //     localStorage.setItem('username', user.username)
+    //     localStorage.setItem('roles', decoded.roles)
+    //     localStorage.setItem('access_token', tokenData.access_token)
+    //     localStorage.setItem('exp', decoded.exp)
+    //     // var userData = {'username': user.username,
+    //     //                 'roles': decoded.roles,
+    //     //                 'access_token': tokenData.access_token,
+    //     //                 'exp': decoded.exp
+    //     //               }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //     this.msg = error
+    //   })
+    // }
   }
 }
 </script>
