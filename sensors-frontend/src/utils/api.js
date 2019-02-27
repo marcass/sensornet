@@ -13,7 +13,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
 axios.defaults.headers.delete['Content-Type'] = 'application/json';
 
-export { testGet, logMeIn, testLogin }
+export { testGet, logMeIn, testLogin, logOut }
 
 // get token
 function authHeader () {
@@ -49,8 +49,10 @@ function authHeader () {
   }
 }
 
-function tokenAtt () {
-  return localStorage.getItem('access_token')
+function logOut() {
+  axios.defaults.headers.common['Authorization'] =  null
+  // remove session data
+  localStorage.clear()
 }
 
 function simple_get(url) {

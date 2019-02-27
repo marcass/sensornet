@@ -28,7 +28,7 @@ export default {
     loginTest (user) {
       // testLogin (user).then(function (response) {
       testLogin (user).then((response) => {
-        // console.log(response)
+        console.log(response)
         var tokenData = response.data
         var decoded = jwt_decode(tokenData.access_token)
         // console.log(decoded)
