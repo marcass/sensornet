@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { logMeIn, testLogin, storeToken } from '../utils/api.js'
+import { logMeIn, testLogin, getToken } from '../utils/api.js'
 import jwt_decode from 'jwt-decode'
 export default {
   data () {
@@ -26,8 +26,15 @@ export default {
   },
   methods: {
     loginTest(user){
-      var ret = storeToken(user)
-      console.log(ret)
+      getToken(user).then((response) => {
+        console.log('login test')
+        console.log('login test ' + response)
+        return
+      })
+      .catch(fetchFailed)
+    },
+    fetchFailed () {
+      console.log('seomthing went wrong')
     }
     // loginTest (user) {
     //   // testLogin (user).then(function (response) {

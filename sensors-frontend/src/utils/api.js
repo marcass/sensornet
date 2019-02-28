@@ -14,7 +14,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
 axios.defaults.headers.delete['Content-Type'] = 'application/json';
 
-export { testGet, logMeIn, testLogin, logOut, storeToken }
+export { testGet, logMeIn, testLogin, logOut, getToken }
 
 //401 interceptor
 // Vue.axios.interceptors.response.use((response) => { // intercept the global error
@@ -95,8 +95,8 @@ function authHeader () {
   }
   else {
     // test to see if token not expired
-    console.log('we ahve a token')
-    console.log(token)
+    // console.log('we ahve a token')
+    // console.log(token)
     var now = new Date().getTime()
     var exp = Number(localStorage.getItem('exp')) * 1000
     // console.log(now)
@@ -122,23 +122,26 @@ function logOut() {
   localStorage.clear()
 }
 
-function storeToken(user) {
-  testLogin (user).then((response) => {
-    console.log(response)
-    var tokenData = response.data
-    var decoded = jwt_decode(tokenData.access_token)
-    // console.log(decoded)
-    // set items in storage
-    localStorage.setItem('username', user.username)
-    localStorage.setItem('roles', decoded.roles)
-    localStorage.setItem('access_token', tokenData.access_token)
-    localStorage.setItem('exp', decoded.exp)
-    return {'msg': 'success'}
-  })
-  .catch((error) => {
-    console.log(error)
-    return {'msg': error}
-  })
+function storeToken (result) {
+  // console.log(response)
+  var tokenData = response.data
+  var decoded = jwt_decode(tokenData.access_token)
+  // console.log(decoded)
+  // set items in storage
+  localStorage.setItem('username', user.username)
+  localStorage.setItem('roles', decoded.roles)
+  localStorage.setItem('access_token', tokenData.access_token)
+  localStorage.setItem('exp', decoded.exp)
+  return 'success'
+}
+
+function tokenError (error) {
+  console.log(error)
+  return error
+}
+
+function getToken(user) {
+  testLogin (user).then(storeToken, tokenError);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
