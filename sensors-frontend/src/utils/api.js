@@ -14,7 +14,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.put['Content-Type'] = 'application/json';
 axios.defaults.headers.delete['Content-Type'] = 'application/json';
 
-export { testGet, logMeIn, testLogin, logOut, getToken }
+export { testGet, logMeIn, testLogin, logOut, getToken, testToken }
 
 //401 interceptor
 // Vue.axios.interceptors.response.use((response) => { // intercept the global error
@@ -116,6 +116,20 @@ function authHeader () {
   }
 }
 
+function testToken () {
+  var now = new Date().getTime()
+  var exp = Number(localStorage.getItem('exp')) * 1000
+  if (now > exp) {
+    console.log('token expired, redirect')
+    logOut()
+    return {'msg': 'expired'}
+  }
+  else {
+    console.log('token OK')
+    return {'msg': 'valid'}
+  }
+}
+
 function logOut() {
   axios.defaults.headers.common['Authorization'] =  null
   // remove session data
@@ -123,12 +137,12 @@ function logOut() {
 }
 
 function storeToken (result) {
-  // console.log(response)
-  var tokenData = response.data
+  // console.log(result)
+  var tokenData = result.data
   var decoded = jwt_decode(tokenData.access_token)
-  // console.log(decoded)
+  console.log(decoded)
   // set items in storage
-  localStorage.setItem('username', user.username)
+  // localStorage.setItem('username', user.username)
   localStorage.setItem('roles', decoded.roles)
   localStorage.setItem('access_token', tokenData.access_token)
   localStorage.setItem('exp', decoded.exp)

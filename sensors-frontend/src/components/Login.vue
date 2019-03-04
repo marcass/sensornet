@@ -14,14 +14,15 @@
 </template>
 
 <script>
-import { logMeIn, testLogin, getToken } from '../utils/api.js'
+import { logMeIn, testLogin, getToken, testToken } from '../utils/api.js'
 import jwt_decode from 'jwt-decode'
 export default {
   data () {
     return {
       username: '',
       password: '',
-      msg: 'trying'
+      msg: 'trying',
+      polling: null
     }
   },
   methods: {
@@ -35,7 +36,19 @@ export default {
     },
     fetchFailed () {
       console.log('seomthing went wrong')
-    }
+    },
+    pollData () {
+  		this.polling = setInterval(() => {
+  	    var response = testToken()
+        if (response.msg == 'expired') {
+          this.$router.push({name: 'login'})
+        }
+        else {
+          console.log('ive just checked the token')
+          // do nothing
+        }
+  		}, 120000)
+  	}
     // loginTest (user) {
     //   // testLogin (user).then(function (response) {
     //   testLogin (user).then((response) => {
@@ -59,6 +72,12 @@ export default {
     //     this.msg = error
     //   })
     // }
+  },
+  beforeDestroy () {
+  	clearInterval(this.polling)
+  },
+  created () {
+  	this.pollData()
   }
 }
 </script>
