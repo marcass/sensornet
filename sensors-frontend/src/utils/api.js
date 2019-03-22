@@ -7,6 +7,7 @@ import Router from 'vue-router'
 Vue.use(VueAxios, axios, Router)
 
 const BASE_URL = 'http://localhost:8001/kong';
+// const BASE_URL = 'https://skibo.duckdns.org/kong';
 // const BASE_URL = 'http://nuc/kong';
 Vue.axios.defaults.baseURL = BASE_URL;
 // axios.defaults.headers.common['Authorization'] = 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJqMXVnc3hQYll6Nldnb0NtWEtmMHpxb3kwU1NySTdHYSIsIm5iZiI6MTU1MTIxMTYwNywic3ViIjp7InVzZXJuYW1lIjoiYW5keSJ9LCJpYXQiOjE1NTEyMTE2MDcsImV4cCI6MTU1MTIxNTIwNywicm9sZXMiOlsicGxlYiIsImZ1Y2tlciJdfQ.8iRuEICHnueIFrTFwmS2U3y8h4QVsXfIjGg7GhwFy9Q';
@@ -140,7 +141,7 @@ function storeToken (result) {
   // console.log(result)
   var tokenData = result.data
   var decoded = jwt_decode(tokenData.access_token)
-  console.log(decoded)
+  // console.log(decoded)
   // set items in storage
   // localStorage.setItem('username', user.username)
   localStorage.setItem('roles', decoded.roles)
@@ -157,6 +158,14 @@ function tokenError (error) {
 function getToken(user) {
   testLogin (user).then(storeToken, tokenError);
 }
+
+// function getToken(user) {
+//   testLogin (user).then(function(result) {
+//     return storeToken(result)
+//   }).catch(function(error) {
+//     return tokenError(error)
+//   })
+// }
 
 /////////////////////////////////////////////////////////////////////////////////////
 // ROUTES

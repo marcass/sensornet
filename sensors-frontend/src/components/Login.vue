@@ -26,13 +26,20 @@ export default {
     }
   },
   methods: {
+    // loginTest(user){
+    //   getToken(user).then((response) => {
+    //     console.log('login test')
+    //     console.log('login test ' + response)
+    //     return
+    //   })
+    //   .catch(fetchFailed)
+    // },
+    // fetchFailed () {
+    //   console.log('seomthing went wrong')
+    // },
     loginTest(user){
-      getToken(user).then((response) => {
-        console.log('login test')
-        console.log('login test ' + response)
-        return
-      })
-      .catch(fetchFailed)
+      getToken(user)
+      // console.log(this.msg)
     },
     fetchFailed () {
       console.log('seomthing went wrong')
